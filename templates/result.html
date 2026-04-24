@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+    <div class="container result-page">
+        <div class="top-bar">
+            <div class="welcome">Logged in as <strong>{{ username }}</strong></div>
+            <a class="button secondary" href="{{ url_for('logout') }}">Logout</a>
+        </div>
+
+        <h1>Quiz Result</h1>
+        <p class="result-summary">You scored <strong>{{ score }}</strong> out of <strong>{{ total }}</strong>.</p>
+        <p class="result-breakdown">Correct: <strong>{{ correct }}</strong> | Wrong: <strong>{{ wrong }}</strong></p>
+
+        <div class="result-details">
+            <h2>Review</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Question</th>
+                        <th>Your Answer</th>
+                        <th>Correct Answer</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in results %}
+                    <tr class="{{ 'correct' if item.is_correct else 'wrong' }}">
+                        <td>{{ item.question }}</td>
+                        <td>{{ item.selected }}</td>
+                        <td>{{ item.correct_answer }}</td>
+                        <td>{{ 'Correct' if item.is_correct else 'Wrong' }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="button-row">
+            <a class="button" href="{{ url_for('quiz') }}">Restart Quiz</a>
+            <a class="button secondary" href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </div>
+</body>
+</html>

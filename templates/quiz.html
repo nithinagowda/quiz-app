@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+    <div class="container quiz-page">
+        <button id="back-btn" class="back-button">Back</button>
+        <div class="top-bar">
+            <div class="welcome">Welcome, <strong>{{ username }}</strong></div>
+            <a class="button secondary" href="{{ url_for('logout') }}">Logout</a>
+        </div>
+
+        <h1>Quiz</h1>
+        <p class="intro">Answer all questions in the next 5 minutes. The quiz will auto-submit when time runs out.</p>
+
+        <div class="quiz-info">
+            <div id="timer" class="timer">Time left: <span id="timer-value">300</span> seconds</div>
+            <div class="total-questions">Total questions: {{ questions|length }}</div>
+        </div>
+
+        <form id="quiz-form" method="post" action="{{ url_for('submit') }}">
+            {% for question in questions %}
+            <div class="question-block">
+                <div class="question-title">{{ loop.index }}. {{ question.question }}</div>
+                <div class="options">
+                    <label><input type="radio" name="q_{{ question.id }}" value="{{ question.option1 }}" /> {{ question.option1 }}</label>
+                    <label><input type="radio" name="q_{{ question.id }}" value="{{ question.option2 }}" /> {{ question.option2 }}</label>
+                    <label><input type="radio" name="q_{{ question.id }}" value="{{ question.option3 }}" /> {{ question.option3 }}</label>
+                    <label><input type="radio" name="q_{{ question.id }}" value="{{ question.option4 }}" /> {{ question.option4 }}</label>
+                </div>
+                <div class="error-message" aria-live="polite"></div>
+            </div>
+            {% endfor %}
+
+            <div class="form-actions">
+                <div id="timer-message" class="timer-message"></div>
+                <button type="submit" id="submit-btn" class="primary">Submit Quiz</button>
+            </div>
+        </form>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
