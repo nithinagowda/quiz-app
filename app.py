@@ -2,8 +2,10 @@ import random
 import sqlite3
 from flask import Flask, render_template, request, redirect, url_for, session
 
+import os
+
 app = Flask(__name__, static_folder="static", template_folder="templates")
-app.secret_key = "replace_this_with_a_secure_key"
+app.secret_key = os.environ.get("SECRET_KEY", "replace_this_with_a_secure_key")
 DB_NAME = "database.db"
 
 
@@ -170,4 +172,5 @@ def logout():
 
 if __name__ == "__main__":
     init_db()
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=False)
